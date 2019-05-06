@@ -123,12 +123,12 @@ $(document).ready(() => {
 
     nameField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
-            addClassEntry(nameField.value, unitsField.value, gradeField.value);
+            gradeField.focus();
         }
     });
     unitsField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
-            addClassEntry(nameField.value, unitsField.value, gradeField.value);
+            unitsField.focus();
         }
     });
     gradeField.addEventListener("keyup", keyEvent => {
