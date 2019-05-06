@@ -61,7 +61,7 @@ $(document).ready(() => {
         let gradeCol = row.insertCell(2);
         gradeCol.innerHTML = validGrade;
         if (!showTable) {
-            controlsCard.classList.remove("mt-5");
+            controlsCard.classList.replace("mt-5", "mt-3");
             gradeCard.classList.add("show");
             gradeCard.classList.add("animated", "fadeInDown");
             controlsCard.classList.add("animated", "fadeInDown");
