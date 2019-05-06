@@ -1,0 +1,31 @@
+.table-scrollbar {
+    position: relative;
+    height: 250px;
+    overflow: auto;
+}
+
+ .table-scrollbar::-webkit-scrollbar-track
+ {
+     border-radius: 10px;
+     background-color: #ececff;
+ }
+ 
+ .table-scrollbar::-webkit-scrollbar
+ {
+     width: 12px;
+     background-color: transparent;
+ }
+ 
+ .table-scrollbar::-webkit-scrollbar-thumb
+ {
+     border-radius: 10px;
+     background-color: #bfbfbf;
+ }
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.btn {
+    border-radius: 50px;
+}

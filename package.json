@@ -1,0 +1,15 @@
+{
+  "name": "gpa-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node webserver",
+    "dev": "nodemon webserver"
+  },
+  "author": "Patrick Latorre",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
