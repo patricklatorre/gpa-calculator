@@ -103,7 +103,7 @@ $(document).ready(() => {
     function clearFields() {
         nameField.value = "";
         unitsField.value = "";
-        gradeField = "";
+        gradeField.value = "";
     }
 
     // request focus to class name field
