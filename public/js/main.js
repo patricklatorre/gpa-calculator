@@ -69,7 +69,13 @@ $(document).ready(() => {
         }
 
         row.classList.add("show", "animated", "fadeIn");
+
+        // update GPA
         gpaText.innerHTML = calculateGPA().toFixed(2);
+
+        // reset fields
+        clearFields();
+        focusOnClassField();
     }
 
     // return uppercase string if valid, otherwise null
@@ -93,6 +99,17 @@ $(document).ready(() => {
         return tentativeGrade / sumOfUnits;
     }
 
+    // clear fields
+    function clearFields() {
+        nameField.value = "";
+        unitsField.value = "";
+        gradeField = "";
+    }
+
+    // request focus to class name field
+    function focusOnClassField() {
+        nameField.focus();
+    }
 
     // Listeners
     addBtn.addEventListener("click", () => {
