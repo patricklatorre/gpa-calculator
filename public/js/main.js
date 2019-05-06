@@ -126,12 +126,12 @@ $(document).ready(() => {
             gradeField.focus();
         }
     });
-    unitsField.addEventListener("keyup", keyEvent => {
+    gradeField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
             unitsField.focus();
         }
     });
-    gradeField.addEventListener("keyup", keyEvent => {
+    unitsField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
             addClassEntry(nameField.value, unitsField.value, gradeField.value);
         }
