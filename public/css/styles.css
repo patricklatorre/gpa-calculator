@@ -10,6 +10,10 @@
      background-color: #ececff;
  }
  
+.display-1 {
+    margin-bottom: 0.5em;
+}
+ 
  .table-scrollbar::-webkit-scrollbar
  {
      width: 12px;
@@ -33,5 +37,10 @@
 @media (max-width: 768px) {
     .table-scrollbar {
         height: 200px;
+    }
+
+    .display-1 {
+        margin-bottom: 0.1em;
+        font-size: 3em;
     }
 }
