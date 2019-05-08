@@ -13,7 +13,7 @@ $(document).ready(() => {
     var validFloats = ["0.0", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0"];
     var validInts = ["0", "1", "2", "3", "4"];
 
-    // Lock view of table
+    // Lock table view
     var showTable = false;
 
     // functions
@@ -60,6 +60,8 @@ $(document).ready(() => {
         unitsCol.innerHTML = validUnits;
         let gradeCol = row.insertCell(2);
         gradeCol.innerHTML = validGrade;
+
+        // on first grade
         if (!showTable) {
             controlsCard.classList.replace("mt-5", "mt-3");
             gradeCard.classList.add("show");
@@ -73,9 +75,9 @@ $(document).ready(() => {
         // update GPA
         gpaText.innerHTML = calculateGPA().toFixed(2);
 
-        // reset fields
+        // reset input
         clearFields();
-        focusOnClassField();
+        nameField.focus();
     }
 
     // return uppercase string if valid, otherwise null
@@ -106,31 +108,29 @@ $(document).ready(() => {
         gradeField.value = "";
     }
 
-    // request focus to class name field
-    function focusOnClassField() {
-        nameField.focus();
-    }
-
     // Listeners
     addBtn.addEventListener("click", () => {
         addClassEntry(nameField.value, unitsField.value, gradeField.value);
     });
 
-
-
     // key listeners
     const ENTER_KEY = 13;
 
+    // move to next field when ENTER pressed
     nameField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
             gradeField.focus();
         }
     });
+
+    // move to next field when ENTER pressed
     gradeField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
             unitsField.focus();
         }
     });
+
+    // submit data when ENTER pressed on last field
     unitsField.addEventListener("keyup", keyEvent => {
         if (ENTER_KEY == keyEvent.keyCode) {
             addClassEntry(nameField.value, unitsField.value, gradeField.value);

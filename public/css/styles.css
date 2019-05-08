@@ -1,6 +1,6 @@
 .table-scrollbar {
     position: relative;
-    height: 200px;
+    height: 300px;
     overflow: auto;
 }
 
@@ -28,4 +28,10 @@
 
 .btn {
     border-radius: 50px;
+}
+
+@media (max-width: 768px) {
+    .table-scrollbar {
+        height: 200px;
+    }
 }
