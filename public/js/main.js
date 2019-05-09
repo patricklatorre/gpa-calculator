@@ -13,26 +13,24 @@ $(document).ready(() => {
   const validFloats = ['0.0', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0'];
   const validInts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-  const UNITS_COL = 1;
-  const GRADES_COL = 2;
+  const GRADES_COL = 1;
+  const UNITS_COL = 2;
 
   // show table upon first class entry
   let showTable = false;
 
   /**
-   * Validates data in fields then adds a table entry upon success. Also handles
-   * showing the table upon first class entry. Validation checks if fields are
-   * empty and if the values are valid.
-   * @param {string} name value of the nameField
-   * @param {number} units value of the unitsField
-   * @param {number} grade value of the gradeField
-   */
+  * Validates data in fields then adds a table entry upon success. Also handles
+  * showing the table upon first class entry. Validation checks if fields are
+  * empty and if the values are valid.
+  * @param {string} name value of the nameField
+  * @param {number} units value of the unitsField
+  * @param {number} grade value of the gradeField
+  */
   function addClassEntry(name, units, grade) {
     // check if a field is empty
-    if (name == ''
-      || (units + '') == ''
-      || (grade + '') == '') {
-      window.alert('Fill in the fields first!');
+    if (units == '' || grade == '') {
+      window.alert('Fill in the necessary fields first!');
       return;
     }
 
@@ -40,6 +38,7 @@ $(document).ready(() => {
     const validName = validateClass(name);
     if (validName == null) {
       window.alert(`${validName} is not a valid class!`);
+      nameField.focus();
       return;
     }
 
@@ -47,6 +46,7 @@ $(document).ready(() => {
     const validUnits = validInts.includes(units) ? (units).charAt(0) : -1;
     if (validUnits == -1) {
       window.alert(`${units} is invalid!`);
+      unitsField.focus();
       return;
     }
 
@@ -56,6 +56,7 @@ $(document).ready(() => {
       validGrade = validInts.includes(grade) ? (grade + '.0') : -1;
       if (validGrade == -1) {
         window.alert(`${grade} is not a valid grade`);
+        gradeField.focus();
         return;
       }
     }
@@ -63,12 +64,19 @@ $(document).ready(() => {
     // create a table row and insert formatted values
     const row = gradeTable.insertRow(1);
     row.classList.add('bg-white', 'collapse');
+
+    // if no name is indicated, insert "no name" instead
     const nameCol = row.insertCell(0);
-    nameCol.innerHTML = validName;
-    const unitsCol = row.insertCell(1);
-    unitsCol.innerHTML = validUnits;
-    const gradeCol = row.insertCell(2);
+    nameCol.innerHTML = (validName.length == 0) ?
+      `<data class='text-muted'>no name</data>`
+      : validName;
+
+    const gradeCol = row.insertCell(GRADES_COL);
     gradeCol.innerHTML = validGrade;
+
+    const unitsCol = row.insertCell(UNITS_COL);
+    unitsCol.innerHTML = validUnits;
+
 
     // show table and change style on first table entry
     if (!showTable) {
@@ -90,21 +98,20 @@ $(document).ready(() => {
     nameField.focus();
   }
 
-
   /**
-   * Checks if a string is a valid class value.
-   * @param {string} name the string to be validated
-   * @return {string} uppercase form of string if valid; otherwise null
-   */
+  * Checks if a string is a valid class value.
+  * @param {string} name the string to be validated
+  * @return {string} uppercase form of string if valid; otherwise null
+  */
   function validateClass(name) {
-    if (name.length == 7) return name.toUpperCase();
+    if (name.length == 0 || name.length == 7) return name.toUpperCase();
     return null;
   }
 
   /**
-   * Calculates the GPA by traversing the rows of the table.
-   * @return {number} the unrounded GPA
-   */
+  * Calculates the GPA by traversing the rows of the table.
+  * @return {number} the unrounded GPA
+  */
   function calculateGPA() {
     let rowUnits;
     let rowGrade;
@@ -123,9 +130,10 @@ $(document).ready(() => {
     return tentativeGrade / sumOfUnits;
   }
 
+
   /**
-   * Clears all fields
-   */
+  * Clears all fields
+  */
   function clearFields() {
     nameField.value = '';
     unitsField.value = '';
