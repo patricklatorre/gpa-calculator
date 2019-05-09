@@ -28,27 +28,35 @@ $(document).ready(() => {
   * @param {number} grade value of the gradeField
   */
   function addClassEntry(name, units, grade) {
+    let invalidValueFound = false;
+    let isNameValid = true;
+    let isGradeValid = true;
+    let isUnitsValid = true;
+
     // check if a field is empty
     if (units == '' || grade == '') {
       window.alert('Fill in the necessary fields first!');
-      return;
+      invalidValueFound = true;
+      isGradeValid = false;
+      isUnitsValid = false;
     }
 
     // validate name and format the value to uppercase
     const validName = validateClass(name);
     if (validName == null) {
-      window.alert(`${validName} is not a valid class!`);
-      nameField.focus();
-      return;
+      window.alert(`${name} is not a valid class!`);
+      invalidValueFound = true;
+      isNameValid = false;
     }
 
     // validate and format units value
     const validUnits = validInts.includes(units) ? (units).charAt(0) : -1;
     if (validUnits == -1) {
       window.alert(`${units} is invalid!`);
-      unitsField.focus();
-      return;
+      invalidValueFound = true;
+      isUnitsValid = false;
     }
+
 
     // validate and format grade value
     let validGrade = validFloats.includes(grade) ? grade : -1;
@@ -56,9 +64,26 @@ $(document).ready(() => {
       validGrade = validInts.includes(grade) ? (grade + '.0') : -1;
       if (validGrade == -1) {
         window.alert(`${grade} is not a valid grade`);
-        gradeField.focus();
-        return;
+        invalidValueFound = true;
+        isGradeValid = false;
       }
+    }
+
+    // if invalid values, decorate and focus on first error
+    if (invalidValueFound) {
+      if (!isUnitsValid) {
+        unitsField.classList.add('is-invalid');
+        unitsField.focus();
+      }
+      if (!isGradeValid) {
+        gradeField.classList.add('is-invalid');
+        gradeField.focus();
+      }
+      if (!isNameValid) {
+        nameField.classList.add('is-invalid');
+        nameField.focus();
+      }
+      return;
     }
 
     // create a table row and insert formatted values
@@ -135,6 +160,9 @@ $(document).ready(() => {
   * Clears all fields
   */
   function clearFields() {
+    nameField.classList.remove('is-invalid');
+    gradeField.classList.remove('is-invalid');
+    unitsField.classList.remove('is-invalid');
     nameField.value = '';
     unitsField.value = '';
     gradeField.value = '';
