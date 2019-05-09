@@ -35,7 +35,6 @@ $(document).ready(() => {
 
     // check if a field is empty
     if (units == '' || grade == '') {
-      window.alert('Fill in the necessary fields first!');
       invalidValueFound = true;
       isGradeValid = false;
       isUnitsValid = false;
@@ -44,7 +43,6 @@ $(document).ready(() => {
     // validate name and format the value to uppercase
     const validName = validateClass(name);
     if (validName == null) {
-      window.alert(`${name} is not a valid class!`);
       invalidValueFound = true;
       isNameValid = false;
     }
@@ -52,7 +50,6 @@ $(document).ready(() => {
     // validate and format units value
     const validUnits = validInts.includes(units) ? (units).charAt(0) : -1;
     if (validUnits == -1) {
-      window.alert(`${units} is invalid!`);
       invalidValueFound = true;
       isUnitsValid = false;
     }
@@ -63,7 +60,6 @@ $(document).ready(() => {
     if (validGrade == -1) {
       validGrade = validInts.includes(grade) ? (grade + '.0') : -1;
       if (validGrade == -1) {
-        window.alert(`${grade} is not a valid grade`);
         invalidValueFound = true;
         isGradeValid = false;
       }
