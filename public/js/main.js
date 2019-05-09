@@ -11,7 +11,7 @@ $(document).ready(() => {
 
   // Valid data
   const validFloats = ['0.0', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0'];
-  const validInts = ['0', '1', '2', '3', '4'];
+  const validInts = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
   const UNITS_COL = 1;
   const GRADES_COL = 2;
@@ -39,26 +39,23 @@ $(document).ready(() => {
     // validate name and format the value to uppercase
     const validName = validateClass(name);
     if (validName == null) {
-      window.alert(`${validName} is not a valid class.`);
+      window.alert(`${validName} is not a valid class!`);
       return;
     }
 
     // validate and format units value
-    let validUnits = validFloats.includes(units + '') ? units + '' : -1;
+    const validUnits = validInts.includes(units) ? (units).charAt(0) : -1;
     if (validUnits == -1) {
-      validUnits = validInts.includes(units + '') ? units + '.0' : -1;
-      if (validUnits == -1) {
-        console.log('Failed to add class: Invalid units value');
-        return;
-      }
+      window.alert(`${units} is invalid!`);
+      return;
     }
 
     // validate and format grade value
-    let validGrade = validFloats.includes(grade + '') ? grade + '' : -1;
+    let validGrade = validFloats.includes(grade) ? grade : -1;
     if (validGrade == -1) {
-      validGrade = validInts.includes(grade + '') ? grade + '.0' : -1;
+      validGrade = validInts.includes(grade) ? (grade + '.0') : -1;
       if (validGrade == -1) {
-        console.log('Failed to add class: Invalid units value');
+        window.alert(`${grade} is not a valid grade`);
         return;
       }
     }
