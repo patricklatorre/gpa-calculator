@@ -1,139 +1,166 @@
 $(document).ready(() => {
-    // UI elements
-    var nameField = document.getElementById('nameField');
-    var unitsField = document.getElementById('unitsField');
-    var gradeField = document.getElementById('gradeField');
-    var addBtn = document.getElementById('addBtn');
-    var gradeCard = document.getElementById('gradeCard');
-    var controlsCard = document.getElementById('controlsCard');
-    var gradeTable = document.getElementById('gradeTable');
-    var gpaText = document.getElementById('gpaText');
+  // UI elements
+  const nameField = document.getElementById('nameField');
+  const unitsField = document.getElementById('unitsField');
+  const gradeField = document.getElementById('gradeField');
+  const addBtn = document.getElementById('addBtn');
+  const gradeCard = document.getElementById('gradeCard');
+  const controlsCard = document.getElementById('controlsCard');
+  const gradeTable = document.getElementById('gradeTable');
+  const gpaText = document.getElementById('gpaText');
 
-    // Valid data
-    var validFloats = ["0.0", "1.0", "1.5", "2.0", "2.5", "3.0", "3.5", "4.0"];
-    var validInts = ["0", "1", "2", "3", "4"];
+  // Valid data
+  const validFloats = ['0.0', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0'];
+  const validInts = ['0', '1', '2', '3', '4'];
 
-    // Lock table view
-    var showTable = false;
+  const UNITS_COL = 1;
+  const GRADES_COL = 2;
 
-    // functions
-    function addClassEntry(name, units, grade) {
-        // check if a field is empty
-        if (name == "" || (unitsField + "") == "" || (gradeField + "") == "") {
-            console.log('Failed to add class: Fields are empty');
-            return;
-        }
+  // show table upon first class entry
+  let showTable = false;
 
-        // validate name and format the value (uppercase)
-        var validName = validateClass(name);
-        if (validName == null) {
-            console.log('Failed to add class: Invalid class name');
-            return;
-        }
-
-        // validate and format units value
-        var validUnits = validFloats.includes(units + "") ? units + "" : -1;
-        if (validUnits == -1) {
-            validUnits = validInts.includes(units + "") ? units + ".0" : -1;
-            if (validUnits == -1) {
-                console.log('Failed to add class: Invalid units value');
-                return;
-            }
-        }
-
-        // validate and format grade value
-        var validGrade = validFloats.includes(grade + "") ? grade + "" : -1;
-        if (validGrade == -1) {
-            validGrade = validInts.includes(grade + "") ? grade + ".0" : -1;
-            if (validGrade == -1) {
-                console.log('Failed to add class: Invalid units value');
-                return;
-            }
-        }
-
-        // create a table row and insert formatted values
-        let row = gradeTable.insertRow(1);
-        row.classList.add("bg-white", "collapse");
-        let nameCol = row.insertCell(0);
-        nameCol.innerHTML = validName;
-        let unitsCol = row.insertCell(1);
-        unitsCol.innerHTML = validUnits;
-        let gradeCol = row.insertCell(2);
-        gradeCol.innerHTML = validGrade;
-
-        // on first grade
-        if (!showTable) {
-            controlsCard.classList.replace("mt-5", "mt-3");
-            gradeCard.classList.add("show");
-            gradeCard.classList.add("animated", "fadeInDown");
-            controlsCard.classList.add("animated", "fadeInDown");
-            showTable = true;
-        }
-
-        row.classList.add("show", "animated", "fadeIn");
-
-        // update GPA
-        gpaText.innerHTML = calculateGPA().toFixed(2);
-
-        // reset input
-        clearFields();
-        nameField.focus();
+  /**
+   * Validates data in fields then adds a table entry upon success. Also handles
+   * showing the table upon first class entry. Validation checks if fields are
+   * empty and if the values are valid.
+   * @param {string} name value of the nameField
+   * @param {number} units value of the unitsField
+   * @param {number} grade value of the gradeField
+   */
+  function addClassEntry(name, units, grade) {
+    // check if a field is empty
+    if (name == ''
+      || (units + '') == ''
+      || (grade + '') == '') {
+      window.alert('Fill in the fields first!');
+      return;
     }
 
-    // return uppercase string if valid, otherwise null
-    function validateClass(name) {
-        if (name.length == 7) return name.toUpperCase();
-        return null;
+    // validate name and format the value to uppercase
+    const validName = validateClass(name);
+    if (validName == null) {
+      window.alert(`${validName} is not a valid class.`);
+      return;
     }
 
-    // iterate through table and return the final gpa
-    function calculateGPA() {
-        var tentativeGrade = 0;
-        var sumOfUnits = 0;
-
-        // iterate through rows
-        for (var i = 1; i < gradeTable.rows.length; i++) {
-            tentativeGrade += (parseFloat(gradeTable.rows[i].cells[1].innerHTML) * parseFloat(gradeTable.rows[i].cells[2].innerHTML));
-            sumOfUnits += parseFloat(gradeTable.rows[i].cells[1].innerHTML);
-        }
-
-        // return average
-        return tentativeGrade / sumOfUnits;
+    // validate and format units value
+    let validUnits = validFloats.includes(units + '') ? units + '' : -1;
+    if (validUnits == -1) {
+      validUnits = validInts.includes(units + '') ? units + '.0' : -1;
+      if (validUnits == -1) {
+        console.log('Failed to add class: Invalid units value');
+        return;
+      }
     }
 
-    // clear fields
-    function clearFields() {
-        nameField.value = "";
-        unitsField.value = "";
-        gradeField.value = "";
+    // validate and format grade value
+    let validGrade = validFloats.includes(grade + '') ? grade + '' : -1;
+    if (validGrade == -1) {
+      validGrade = validInts.includes(grade + '') ? grade + '.0' : -1;
+      if (validGrade == -1) {
+        console.log('Failed to add class: Invalid units value');
+        return;
+      }
     }
 
-    // Listeners
-    addBtn.addEventListener("click", () => {
-        addClassEntry(nameField.value, unitsField.value, gradeField.value);
-    });
+    // create a table row and insert formatted values
+    const row = gradeTable.insertRow(1);
+    row.classList.add('bg-white', 'collapse');
+    const nameCol = row.insertCell(0);
+    nameCol.innerHTML = validName;
+    const unitsCol = row.insertCell(1);
+    unitsCol.innerHTML = validUnits;
+    const gradeCol = row.insertCell(2);
+    gradeCol.innerHTML = validGrade;
 
-    // key listeners
-    const ENTER_KEY = 13;
+    // show table and change style on first table entry
+    if (!showTable) {
+      controlsCard.classList.replace('mt-5', 'mt-3');
+      gradeCard.classList.add('show');
+      gradeCard.classList.add('animated', 'fadeInDown');
+      controlsCard.classList.add('animated', 'fadeInDown');
+      showTable = true;
+    }
 
-    // move to next field when ENTER pressed
-    nameField.addEventListener("keyup", keyEvent => {
-        if (ENTER_KEY == keyEvent.keyCode) {
-            gradeField.focus();
-        }
-    });
+    // animate the row
+    row.classList.add('show', 'animated', 'fadeIn');
 
-    // move to next field when ENTER pressed
-    gradeField.addEventListener("keyup", keyEvent => {
-        if (ENTER_KEY == keyEvent.keyCode) {
-            unitsField.focus();
-        }
-    });
+    // update GPA
+    gpaText.innerHTML = calculateGPA().toFixed(2);
 
-    // submit data when ENTER pressed on last field
-    unitsField.addEventListener("keyup", keyEvent => {
-        if (ENTER_KEY == keyEvent.keyCode) {
-            addClassEntry(nameField.value, unitsField.value, gradeField.value);
-        }
-    });
+    // reset input
+    clearFields();
+    nameField.focus();
+  }
+
+
+  /**
+   * Checks if a string is a valid class value.
+   * @param {string} name the string to be validated
+   * @return {string} uppercase form of string if valid; otherwise null
+   */
+  function validateClass(name) {
+    if (name.length == 7) return name.toUpperCase();
+    return null;
+  }
+
+  /**
+   * Calculates the GPA by traversing the rows of the table.
+   * @return {number} the unrounded GPA
+   */
+  function calculateGPA() {
+    let rowUnits;
+    let rowGrade;
+    let tentativeGrade = 0;
+    let sumOfUnits = 0;
+
+    // iterate through rows
+    for (let i = 1; i < gradeTable.rows.length; i++) {
+      rowUnits = parseFloat(gradeTable.rows[i].cells[UNITS_COL].innerHTML);
+      rowGrade = parseFloat(gradeTable.rows[i].cells[GRADES_COL].innerHTML);
+      tentativeGrade += rowUnits * rowGrade;
+      sumOfUnits += parseFloat(gradeTable.rows[i].cells[UNITS_COL].innerHTML);
+    }
+
+    // return average
+    return tentativeGrade / sumOfUnits;
+  }
+
+  /**
+   * Clears all fields
+   */
+  function clearFields() {
+    nameField.value = '';
+    unitsField.value = '';
+    gradeField.value = '';
+  }
+
+  // Listeners
+  addBtn.addEventListener('click', () => {
+    addClassEntry(nameField.value, unitsField.value, gradeField.value);
+  });
+
+  // key listeners
+  const ENTER_KEY = 13;
+
+  // move to next field when ENTER pressed
+  nameField.addEventListener('keyup', (keyEvent) => {
+    if (ENTER_KEY == keyEvent.keyCode) {
+      gradeField.focus();
+    }
+  });
+
+  // move to next field when ENTER pressed
+  gradeField.addEventListener('keyup', (keyEvent) => {
+    if (ENTER_KEY == keyEvent.keyCode) {
+      unitsField.focus();
+    }
+  });
+
+  // submit data when ENTER pressed on last field
+  unitsField.addEventListener('keyup', (keyEvent) => {
+    if (ENTER_KEY == keyEvent.keyCode) {
+      addClassEntry(nameField.value, unitsField.value, gradeField.value);
+    }
+  });
 });
